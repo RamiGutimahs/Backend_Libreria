@@ -1,0 +1,143 @@
+type Libreria {
+    id: ID!
+    nombre: String
+    ubicacion: String
+}
+type Usuario {
+    id: ID!
+    nombreCompleto: String
+    correoElectronico: String
+    contrasena: String
+    rol: String
+}
+type Libro {
+    id: ID!
+    titulo: String
+    autor: String
+    editorial: String
+    genero: String
+    precioVenta: Float
+    stock: Int
+    descripcion: String
+    imagen: String
+}
+type DetalleVenta {
+    libroId: String
+    cantidad: Int
+    precioUnitario: Float
+}
+
+# Define DetalleVentaInput como un tipo de entrada
+input DetalleVentaInput {
+    libroId: String
+    cantidad: Int
+    precioUnitario: Float
+}
+
+type Venta {
+    id: ID!
+    cajeroId: String
+    fechaVenta: String
+    totalVenta: Float
+    detallesVenta: [DetalleVenta]
+}
+
+input VentaInput {
+    cajeroId: String
+    fechaVenta: String
+    totalVenta: Float
+    detallesVenta: [DetalleVentaInput] # Usa DetalleVentaInput aquí
+}
+
+type Inventario {
+    id: ID!
+    libros: [Libro]
+    fechaMovimiento: String
+    cantidad: Int
+    tipoMovimiento: String
+    descripcion: String
+}
+
+type Query {
+    obtenerLibrerias: [Libreria]
+    obtenerLibreriaPorId(id: ID!): Libreria
+
+    obtenerUsuarios: [Usuario]
+    obtenerUsuarioPorId(id: ID!): Usuario
+
+    obtenerLibros: [Libro]
+    obtenerLibroPorId(id: ID!): Libro
+
+    obtenerVentas: [Venta]
+    obtenerVentaPorId(id: ID!): Venta
+
+    obtenerMovimientosInventario: [Inventario]
+    obtenerMovimientoInventarioPorId(id: ID!): Inventario
+}
+
+
+type Mutation {
+    agregarLibreria(nombre: String, ubicacion: String): Libreria
+
+    agregarUsuario(
+        nombreCompleto: String,
+        correoElectronico: String,
+        contrasena: String,
+        rol: String
+    ): Usuario
+
+    actualizarUsuario(
+        id: ID!,
+        nombreCompleto: String,
+        correoElectronico: String,
+        contrasena: String,
+        rol: String
+    ): Usuario
+
+    eliminarUsuario(id: ID!): Boolean
+
+    agregarLibro(
+        titulo: String,
+        autor: String,
+        editorial: String,
+        genero: String,
+        precioVenta: Float,
+        stock: Int,
+        descripcion: String,
+        imagen: String
+    ): Libro
+
+    actualizarLibro(
+        id: ID!,
+        titulo: String,
+        autor: String,
+        editorial: String,
+        genero: String,
+        precioVenta: Float,
+        stock: Int,
+        descripcion: String,
+        imagen: String
+    ): Libro
+
+    eliminarLibro(id: ID!): Boolean
+
+
+    agregarVenta(
+        cajeroId: String,
+        fechaMovimiento: String,
+        totalVenta: Float,
+        detallesVenta: [DetalleVentaInput]
+    ): Venta
+
+    actualizarVenta(
+        id: ID!,
+        cajeroId: String,
+        fechaMovimiento: String,
+        totalVenta: Float,
+        detallesVenta: [DetalleVentaInput]
+    ): Venta
+
+    eliminarVenta(id: ID!): Boolean
+
+
+}
